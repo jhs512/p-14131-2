@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ActiveProfiles
@@ -80,7 +81,7 @@ class ApiV1PostControllerTest {
         val resultActions = mvc
             .perform(
                 post("/api/v1/posts")
-                    .header("Authorization", "Bearer wrong-api-key $actorAccessToken")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer wrong-api-key $actorAccessToken")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         """
@@ -258,7 +259,7 @@ class ApiV1PostControllerTest {
             .perform(
                 post("/api/v1/posts")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .header("Authorization", "Bearer wrong-api-key")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer wrong-api-key")
                     .content(
                         """
                             {

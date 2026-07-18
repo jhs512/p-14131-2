@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ActiveProfiles
@@ -216,7 +217,7 @@ class ApiV1MemberControllerTest {
         val resultActions = mvc
             .perform(
                 get("/api/v1/members/me")
-                    .header("Authorization", "Bearer $actorApiKey wrong-access-token")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer $actorApiKey wrong-access-token")
             )
             .andDo(print())
 
@@ -224,14 +225,14 @@ class ApiV1MemberControllerTest {
             .andExpect(handler().handlerType(ApiV1MemberController::class.java))
             .andExpect(handler().methodName("me"))
             .andExpect(status().isOk)
-            .andExpect(header().string("Authorization", not(blankOrNullString())))
+            .andExpect(header().string(HttpHeaders.AUTHORIZATION, not(blankOrNullString())))
             .andExpect { result ->
                 val accessTokenCookie = result.response.getCookie("accessToken").getOrThrow()
                 assertThat(accessTokenCookie.value).isNotBlank
                 assertThat(accessTokenCookie.path).isEqualTo("/")
                 assertThat(accessTokenCookie.isHttpOnly).isTrue
 
-                val headerAuthorization = result.response.getHeader("Authorization")
+                val headerAuthorization = result.response.getHeader(HttpHeaders.AUTHORIZATION)
                 assertThat(headerAuthorization).isNotBlank
 
                 assertThat(headerAuthorization).isEqualTo(accessTokenCookie.value)
@@ -244,7 +245,7 @@ class ApiV1MemberControllerTest {
         val resultActions = mvc
             .perform(
                 get("/api/v1/members/me")
-                    .header("Authorization", "key")
+                    .header(HttpHeaders.AUTHORIZATION, "key")
             )
             .andDo(print())
 
