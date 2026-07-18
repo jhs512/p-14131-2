@@ -9,6 +9,7 @@ data class PostDto(
     val modifyDate: LocalDateTime,
     val authorId: Int,
     val authorName: String,
+    val authorProfileImgUrl: String,
     val title: String
 ) {
     constructor(post: Post) : this(
@@ -17,6 +18,7 @@ data class PostDto(
         post.modifyDate,
         post.author.id,
         post.author.name,
+        post.author.redirectToProfileImgUrlOrDefault,
         post.title
     )
 }
