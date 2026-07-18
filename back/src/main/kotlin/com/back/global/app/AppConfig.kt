@@ -2,6 +2,7 @@ package com.back.global.app
 
 import com.back.domain.member.member.entity.BaseMember
 import com.back.domain.member.member.repository.MemberAttrRepository
+import com.back.domain.member.member.repository.MemberRepository
 import com.back.domain.post.postUser.entity.PostUser
 import com.back.domain.post.postUser.repository.PostUserAttrRepository
 import com.back.standard.util.Ut
@@ -17,11 +18,13 @@ class AppConfig(
     environment: Environment,
     objectMapper: ObjectMapper,
     memberAttrRepository: MemberAttrRepository,
-    postUserAttrRepository: PostUserAttrRepository
+    postUserAttrRepository: PostUserAttrRepository,
+    memberRepository: MemberRepository,
 ) {
     init {
         Companion.environment = environment
         Ut.json.objectMapper = objectMapper
+        BaseMember.memberRepository = memberRepository
         BaseMember.memberAttrRepository = memberAttrRepository
         PostUser.attrRepository = postUserAttrRepository
     }
