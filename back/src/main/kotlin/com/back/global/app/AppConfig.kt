@@ -1,5 +1,7 @@
 package com.back.global.app
 
+import com.back.domain.member.member.entity.BaseMember
+import com.back.domain.member.member.repository.MemberAttrRepository
 import com.back.domain.post.postUser.entity.PostUser
 import com.back.domain.post.postUser.repository.PostUserAttrRepository
 import com.back.standard.util.Ut
@@ -14,11 +16,13 @@ import tools.jackson.databind.ObjectMapper
 class AppConfig(
     environment: Environment,
     objectMapper: ObjectMapper,
+    memberAttrRepository: MemberAttrRepository,
     postUserAttrRepository: PostUserAttrRepository
 ) {
     init {
         Companion.environment = environment
         Ut.json.objectMapper = objectMapper
+        BaseMember.memberAttrRepository = memberAttrRepository
         PostUser.attrRepository = postUserAttrRepository
     }
 
