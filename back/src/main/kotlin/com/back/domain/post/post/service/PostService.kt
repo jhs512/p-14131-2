@@ -72,10 +72,6 @@ class PostService(
         return postRepository.findFirstByOrderByIdDesc()
     }
 
-    fun flush() {
-        postRepository.flush()
-    }
-
     fun findPagedByKw(
         kwType: PostSearchKeywordType1,
         kw: String,
